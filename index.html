@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>NU Finder</title>
+</head>
+<body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary  text-white">
+
+    <div class="container">
+    <a class="navbar-brand" href="#">NU Finder</a>
+  </nav>
+</div>
+      
+    <div class="container mt-5">
+        <input type="number" class="form-control input" id="id" placeholder="Phone Number" ><br><br>
+        <input type="text" class="form-control input" id="of" placeholder="Country "><br><br>
+        <input type="number" class="form-control input" id="ok" placeholder="Country Code"><br><br>                 
+        <button id="button1" class="btn btn-primary" onclick="fun()">Search</button>
+        <div  id="cols"></div>
+              
+      
+       
+       <br>
+       
+       <p id="para"></p>
+    </div>
+           
+                                  
+    <script>
+      function fun(){
+
+        const Ac= "d6e7ed29ce211ba690ac9e04b70c1827";
+        
+        const xhr = new XMLHttpRequest();
+        const user=document.getElementById("id").value;
+        const is =document.getElementById("ok").value;
+         const de =document.getElementById("of").value;
+
+if(user=="")      
+{alert("plz Enter Number")}  
+else{
+
+
+    xhr.open("GET", `http://apilayer.net/api/validate?access_key=${Ac}&number=${user}&country_code=${de}&format=${is}`, true)
+xhr.onload = () => {
+    if(xhr.status == 200){  //Status 200 = ok
+
+
+        console.log(JSON.parse(xhr.responseText));
+        // console.log(xhr.responseText);
+       
+         let users =  JSON.parse(xhr.responseText);
+
+         document.getElementById("para").innerHTML=`
+                    <ul>
+                 <center>
+                      
+                  
+                   
+                        <h1><span class="badge badge-primary badge-primary" style="width: 50rem; height:2.5rem;">Phone Number: +${users.number}</span></h1>
+                        <h3><span class="badge badge-primary badge-primary" style="width: 50rem; height:2.3rem;">Country Name: ${users.country_name}</span></h3>
+                        <h4><span class="badge badge-primary badge-primary" style="width: 50rem; height:2.3rem;">Carrier: ${users.carrier}</span></h4>
+                        <h5><span class="badge badge-primary badge-primary" style="width: 50rem; height:2.3rem;">Device: ${users.line_type}</span></h5>
+                        
+                        
+                         </center>>        
+                         </ul>
+                    `;
+       
+
+    
+    }
+}
+xhr.send();
+      }
+    
+}
+
+        
+    </script>
+</body>
+</html>
